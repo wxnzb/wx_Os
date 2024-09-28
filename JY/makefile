@@ -26,7 +26,7 @@ $(LOADER_TARGET): $(LOADER_SOURCE)
 # 将编译好的 loader 写入 wx.img 的第二个扇区
 install: $(MBR_TARGET) $(LOADER_TARGET)
 	dd if=$(MBR_TARGET) of=$(IMG) bs=512 count=1 conv=notrunc
-	dd if=$(LOADER_TARGET) of=$(IMG) bs=512 seek=1 count=1 conv=notrunc
+	dd if=$(LOADER_TARGET) of=$(IMG) bs=512 seek=2 count=1 conv=notrunc
 
 # 清理生成的文件
 clean:
