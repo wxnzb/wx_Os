@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x735d4d800010. after alignment, vector=0x735d4d801000, block_size = 128K
+00000000000i[MEM0  ] allocated memory at 0x70ad4a000010. after alignment, vector=0x70ad4a001000, block_size = 128K
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/home/sweet/mybochs/bochs-bochs/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Tue Oct  8 12:50:20   2024 tz=utc (time0=1728391820)
+00000000000i[CMOS  ] Setting initial clock to: Thu Oct 10 21:14:03   2024 tz=utc (time0=1728594843)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -79,9 +79,8 @@
 00000000000i[PLUGIN] init_dev of 'keyboard' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'harddrv' plugin device by virtual method
 00000000000i[HD    ] HD on ata0-0: '/home/sweet/git/vc/JY/wx.img', 'flat' mode
-00000000000i[IMG   ] hd_size: 1536
-00000000000i[HD    ] ata0-0: autodetect geometry: CHS=0/16/63 (sector size=512)
-00000000000i[HD    ] ata0-0: extra data outside of CHS address range
+00000000000i[IMG   ] hd_size: 62447616
+00000000000i[HD    ] ata0-0: autodetect geometry: CHS=121/16/63 (sector size=512)
 00000000000i[HD    ] translation on ata0-0 set to 'none'
 00000000000i[PLUGIN] init_dev of 'pci_ide' plugin device by virtual method
 00000000000i[DEV   ] PIIX3 PCI IDE controller present at device 1, function 1
@@ -216,30 +215,29 @@
 00001525965i[BXVGA ] VBE known Display Interface b0c0
 00001525997i[BXVGA ] VBE known Display Interface b0c5
 00001527418i[VBIOS ] VBE Bios ID: vbe.c 2024-03-03
-00001710325i[BIOS  ] ata0-0: PCHS=0/16/63 translation=none LCHS=0/16/63
-00005143482i[BIOS  ] IDE time out
-00017157724i[BIOS  ] int13_harddisk: function 02, parameters out of range 0000/0000/0001!
-00017194050p[BIOS  ] >>PANIC<< No bootable device.
-00017194851i[CPU0  ] WARNING: HLT instruction with IF=0!
-13136068000i[      ] Ctrl-C detected in signal handler.
-13136068002i[      ] dbg: Quit
-13136068002i[CPU0  ] CPU is in real mode (halted)
-13136068002i[CPU0  ] CS.mode = 16 bit
-13136068002i[CPU0  ] SS.mode = 16 bit
-13136068002i[CPU0  ] EFER   = 0x00000000
-13136068002i[CPU0  ] | EAX=00000e01  EBX=0000cd25  ECX=00090004  EDX=00000002
-13136068002i[CPU0  ] | ESP=0000ffbc  EBP=0000ffd2  ESI=000e0000  EDI=0000ffac
-13136068002i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af pf cf
-13136068002i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-13136068002i[CPU0  ] |  CS:f000( 0004| 0|  0) 000f0000 0000ffff 0 0
-13136068002i[CPU0  ] |  DS:f000( 0005| 0|  0) 000f0000 0000ffff 0 0
-13136068002i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-13136068002i[CPU0  ] |  ES:07c0( 0005| 0|  0) 00007c00 0000ffff 0 0
-13136068002i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-13136068002i[CPU0  ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-13136068002i[CPU0  ] | EIP=00000c3e (00000c3e)
-13136068002i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
-13136068002i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-13136068002i[CMOS  ] Last time: 1728395104 tz=utc (Tue Oct  8 13:45:04   2024)
-13136068002i[XGUI  ] Exit
-13136068002i[SIM   ] quit_sim called with exit code 0
+00001710629i[BIOS  ] ata0-0: PCHS=121/16/63 translation=none LCHS=121/16/63
+00005143818i[BIOS  ] IDE time out
+00017175516i[BIOS  ] Booting from 0000:7c00
+00017196610i[CPU0  ] math_abort: MSDOS compatibility FPU exception
+00070861788i[      ] Ctrl-C detected in signal handler.
+00070861789i[      ] dbg: Quit
+00070861789i[CPU0  ] CPU is in real mode (active)
+00070861789i[CPU0  ] CS.mode = 16 bit
+00070861789i[CPU0  ] SS.mode = 16 bit
+00070861789i[CPU0  ] EFER   = 0x00000000
+00070861789i[CPU0  ] | EAX=00000011  EBX=00001100  ECX=00090000  EDX=000001f1
+00070861789i[CPU0  ] | ESP=0000d279  EBP=00000001  ESI=00000002  EDI=00000004
+00070861789i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf AF pf CF
+00070861789i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+00070861789i[CPU0  ] |  CS:f000( 0004| 0|  0) 000f0000 0000ffff 0 0
+00070861789i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+00070861789i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+00070861789i[CPU0  ] |  ES:c88c( 0005| 0|  0) 000c88c0 0000ffff 0 0
+00070861789i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+00070861789i[CPU0  ] |  GS:b800( 0005| 0|  0) 000b8000 0000ffff 0 0
+00070861789i[CPU0  ] | EIP=0000ff53 (0000c88c)
+00070861789i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
+00070861789i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+00070861789i[CMOS  ] Last time: 1728594860 tz=utc (Thu Oct 10 21:14:20   2024)
+00070861789i[XGUI  ] Exit
+00070861789i[SIM   ] quit_sim called with exit code 0
