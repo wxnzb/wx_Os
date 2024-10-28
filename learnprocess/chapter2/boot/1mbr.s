@@ -1,5 +1,5 @@
  ;主引导程序 
-SECTION MBR vstart=0x7c00       ;代码从编译0x7c00地址开始
+;SECTION MBR vstart=0x7c00       ;代码从编译0x7c00地址开始
             
     mov ax,cs                   ;此时cs寄存器为0x0000，将cs的值赋到ax中
     mov ds,ax
@@ -26,7 +26,7 @@ SECTION MBR vstart=0x7c00       ;代码从编译0x7c00地址开始
 ;打印字符串           调用13号子功能打印字符串
     mov ax, message             ;将 message（表示字符串的起始地址）存入ax寄存器
     mov bp, ax		            ; es:bp 为串首地址, es此时同cs一致
-    mov cx, 5		            ; cx 为串长度,不包括结束符0的字符个数,表示要打印的字符串长度是 5 个字符
+    mov cx, 10		            ; cx 为串长度,不包括结束符0的字符个数,表示要打印的字符串长度是 5 个字符
     mov ax, 0x1301	            ; 子功能号13是显示字符及属性,要存入ah寄存器,
                                 ; ah = 0x13：int 0x10 的 13 号子功能:显示字符串
 			                    ; al设置写字符方式 ah=01: 显示字符串,光标跟随移动

@@ -4,7 +4,7 @@ NASMFLAGS = -f bin  # 指定输出格式为二进制
 
 # 定义目标文件和源文件
 MBR_TARGET = build/mbr.bin
-MBR_SOURCE = 1mbr.s
+MBR_SOURCE = boot/1mbr.s
 IMG = /home/sweet/git/vc/JY/wx.img  # 输出的镜像文件
 
 # 默认规则：编译 mbr，并将其写入 wx.img
@@ -22,6 +22,5 @@ install: $(MBR_TARGET)
 # 清理生成的文件
 clean:
 	rm -rf build
-	rm -f $(IMG)
 
 .PHONY: all install clean

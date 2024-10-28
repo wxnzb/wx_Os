@@ -5,8 +5,8 @@ NASMFLAGS = -f bin -I boot/include   # 指定输出格式为二进制，并设�
 # 定义目标文件和源文件
 MBR_TARGET = build/mbr.bin
 LOADER_TARGET = build/loader.bin
-MBR_SOURCE = 2mbr.s
-LOADER_SOURCE = loader.S
+MBR_SOURCE = boot/3mbr.s
+LOADER_SOURCE = boot/loader.S
 IMG = /home/sweet/git/vc/JY/wx.img
 
 # 默认规则：编译 mbr 和 loader，并将它们写入 wx.img
@@ -31,6 +31,5 @@ install: $(MBR_TARGET) $(LOADER_TARGET)
 # 清理生成的文件
 clean:
 	rm -rf build
-	rm -f $(IMG)
 
 .PHONY: all install clean

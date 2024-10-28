@@ -1,4 +1,3 @@
-# 定义编译器和选项
 NASM = nasm
 NASMFLAGS = -f bin -I boot/include   # 指定输出格式为二进制，并设置包含路径
 GCC = gcc
@@ -8,8 +7,8 @@ LD = ld
 MBR_TARGET = build/mbr.bin
 LOADER_TARGET = build/loader.bin
 KERNEL_TARGET = build/kernel.bin
-MBR_SOURCE = mbr.s
-LOADER_SOURCE = 3loader.S
+MBR_SOURCE = boot/mbr.s
+LOADER_SOURCE = boot/3loader.S
 KERNEL_SOURCE = kernal/main.c
 IMG = /home/sweet/git/vc/JY/wx.img
 
@@ -34,12 +33,12 @@ $(KERNEL_TARGET): $(KERNEL_SOURCE)
 # 将编译好的 mbr, loader, kernel 写入 wx.img
 install: $(MBR_TARGET) $(LOADER_TARGET) $(KERNEL_TARGET)
 	dd if=$(MBR_TARGET) of=$(IMG) bs=512 count=1 conv=notrunc
-	dd if=$(LOADER_TARGET) of=$(IMG) bs=512 seek=2 count=3 conv=notrunc
+	dd if=$(LOADER_TARGET) of=$(IMG) bs=512 seek=2 count=2 conv=notrunc
 	dd if=$(KERNEL_TARGET) of=$(IMG) bs=512 count=200 seek=9 conv=notrunc
 
 # 清理生成的文件
 clean:
 	rm -rf build
-	rm -f $(IMG)
 
 .PHONY: all install clean
+

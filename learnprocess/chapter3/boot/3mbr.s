@@ -44,7 +44,29 @@ SECTION MBR vstart=0x7c00
 
     mov byte [gs:0x08],'R'
     mov byte [gs:0x09],0xA4
-
+;;;;;;;;;;;;;;;;;;;;;;;;这块没实现，因为不知道怎样才算用户按键了～～～
+ ; 等待用户按键以延迟
+;  mov ah, 0x00        ; INT 0x16 功能号：等待按键
+ ;   int 0x16           ; 等待用户按键
+;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; 添加调试信息
+    mov word [gs:0x0A], 'D' + ('E' << 8) ; 输出 DE
+    mov word [gs:0x0C], 'B' + ('G' << 8) ; 输出 BG
+;泰开心拉，可以打印出1mbr了，他不是不打印，而是跳转到loader太块了！！！！！
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;     ; 等待 10 秒
+;     mov cx, 100              ; 设置循环次数为 10
+; .wait_10_seconds:
+;     push cx                 ; 保存循环计数
+;     mov dx, 0xFFFF         ; 设置内部循环计数
+; .inner_loop:
+;     nop                     ; 空操作
+;     nop                     ; 再加一个空操作以增加延迟
+;     dec dx                 ; 减少内部计数
+;     jnz .inner_loop        ; 如果未达到 0，继续循环
+;     pop cx                 ; 恢复循环计数
+;     loop .wait_10_seconds  ; 循环 10 次
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     mov eax,LOADER_START_SECTOR ; 起始扇区lba地址
     mov bx,LOADER_BASE_ADDR ; 写入的地址
     mov cx,1 ; 待读入的扇区数
