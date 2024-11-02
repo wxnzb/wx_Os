@@ -5,7 +5,7 @@ NASMFLAGS = -f bin -I boot/include   # 指定输出格式为二进制，并设�
 # 定义目标文件和源文件
 MBR_TARGET = build/mbr.bin
 LOADER_TARGET = build/loader.bin
-MBR_SOURCE = boot/3mbr.s
+MBR_SOURCE = boot/2mbr.s
 LOADER_SOURCE = boot/loader.S
 IMG = /home/sweet/git/vc/JY/wx.img
 
