@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x784ac6600010. after alignment, vector=0x784ac6601000, block_size = 128K
+00000000000i[MEM0  ] allocated memory at 0x7851b9c00010. after alignment, vector=0x7851b9c01000, block_size = 128K
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/home/sweet/mybochs/bochs-bochs/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Mon Oct 28 15:17:22   2024 tz=utc (time0=1730128642)
+00000000000i[CMOS  ] Setting initial clock to: Fri Nov  1 16:59:59   2024 tz=utc (time0=1730480399)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -218,25 +218,26 @@
 00001710629i[BIOS  ] ata0-0: PCHS=121/16/63 translation=none LCHS=121/16/63
 00005143818i[BIOS  ] IDE time out
 00017175516i[BIOS  ] Booting from 0000:7c00
-00600625334i[      ] Ctrl-C detected in signal handler.
-00600625335i[      ] dbg: Quit
-00600625335i[CPU0  ] CPU is in real mode (active)
-00600625335i[CPU0  ] CS.mode = 16 bit
-00600625335i[CPU0  ] SS.mode = 16 bit
-00600625335i[CPU0  ] EFER   = 0x00000000
-00600625335i[CPU0  ] | EAX=00000000  EBX=00000b00  ECX=00090000  EDX=000001f0
-00600625335i[CPU0  ] | ESP=00007c00  EBP=00000000  ESI=00000002  EDI=00000001
-00600625335i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf AF PF cf
-00600625335i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-00600625335i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
-00600625335i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00600625335i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00600625335i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00600625335i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00600625335i[CPU0  ] |  GS:b800( 0005| 0|  0) 000b8000 0000ffff 0 0
-00600625335i[CPU0  ] | EIP=00000960 (00000960)
-00600625335i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
-00600625335i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-00600625335i[CMOS  ] Last time: 1730128792 tz=utc (Mon Oct 28 15:19:52   2024)
-00600625335i[XGUI  ] Exit
-00600625335i[SIM   ] quit_sim called with exit code 0
+02638633777i[CPU0  ] math_abort: MSDOS compatibility FPU exception
+03587071174i[      ] Ctrl-C detected in signal handler.
+03587071174i[      ] dbg: Quit
+03587071174i[CPU0  ] CPU is in real mode (active)
+03587071174i[CPU0  ] CS.mode = 16 bit
+03587071174i[CPU0  ] SS.mode = 16 bit
+03587071174i[CPU0  ] EFER   = 0x00000000
+03587071174i[CPU0  ] | EAX=00000600  EBX=00000700  ECX=000918ef  EDX=000001f5
+03587071174i[CPU0  ] | ESP=00007bfe  EBP=00000001  ESI=00000003  EDI=00000001
+03587071174i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af PF cf
+03587071174i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+03587071174i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
+03587071174i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03587071174i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03587071174i[CPU0  ] |  ES:c88c( 0005| 0|  0) 000c88c0 0000ffff 0 0
+03587071174i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03587071174i[CPU0  ] |  GS:b800( 0005| 0|  0) 000b8000 0000ffff 0 0
+03587071174i[CPU0  ] | EIP=00007c71 (00007c71)
+03587071174i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
+03587071174i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+03587071174i[CMOS  ] Last time: 1730481295 tz=utc (Fri Nov  1 17:14:55   2024)
+03587071174i[XGUI  ] Exit
+03587071174i[SIM   ] quit_sim called with exit code 0

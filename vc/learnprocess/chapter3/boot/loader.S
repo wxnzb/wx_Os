@@ -27,4 +27,4 @@ mov byte [gs:0x0f],0xA4
 
 
 
-jmp $
+;jmp $

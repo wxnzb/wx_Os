@@ -52,20 +52,25 @@ SECTION MBR vstart=0x7c00
   ; 添加调试信息
     mov word [gs:0x0A], 'D' + ('E' << 8) ; 输出 DE
     mov word [gs:0x0C], 'B' + ('G' << 8) ; 输出 BG
+    ; mov byte [gs:0x0a],'w'
+    ; mov byte [gs:0x0b],0xB5
+
+    ; mov byte [gs:0x0c],'x'
+    ; mov byte [gs:0x0d],0xB5
 ;泰开心拉，可以打印出1mbr了，他不是不打印，而是跳转到loader太块了！！！！！
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;     ; 等待 10 秒
-;     mov cx, 100              ; 设置循环次数为 10
-; .wait_10_seconds:
-;     push cx                 ; 保存循环计数
-;     mov dx, 0xFFFF         ; 设置内部循环计数
-; .inner_loop:
-;     nop                     ; 空操作
-;     nop                     ; 再加一个空操作以增加延迟
-;     dec dx                 ; 减少内部计数
-;     jnz .inner_loop        ; 如果未达到 0，继续循环
-;     pop cx                 ; 恢复循环计数
-;     loop .wait_10_seconds  ; 循环 10 次
+    ; 等待 10 秒
+    mov cx, 10000             ; 设置循环次数为 10
+.wait_10_seconds:
+    push cx                 ; 保存循环计数
+    mov dx, 0xFFFF         ; 设置内部循环计数
+.inner_loop:
+    nop                     ; 空操作
+    nop                     ; 再加一个空操作以增加延迟
+    dec dx                 ; 减少内部计数
+    jnz .inner_loop        ; 如果未达到 0，继续循环
+    pop cx                 ; 恢复循环计数
+    loop .wait_10_seconds  ; 循环 10 次
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     mov eax,LOADER_START_SECTOR ; 起始扇区lba地址
     mov bx,LOADER_BASE_ADDR ; 写入的地址
@@ -140,3 +145,5 @@ rd_disk_m_16:
 
     times 510-($-$$) db 0
     db 0x55,0xaa
+    ;其实我感觉最后一条代码没什么大用
+    ;原因：这个代码就是跳转到磁盘第1到扇区，然后看这个磁盘最后的魔数若是0x55,0xaa，就将他加载到内存，那既然都加载了，那最后的魔数肯定是0x55,0xaa，那为啥在内存中还要设置0x55,0xaa，

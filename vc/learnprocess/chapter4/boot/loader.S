@@ -29,6 +29,7 @@ VIDEO_DESC:
     
 gdt_ptr dw GDT_LIMIT                                    ;定义加载进入GDTR的数据，前2字节是gdt界限，后4字节是gdt起始地址，
 	    dd  GDT_BASE
+;很好其为啥这句话打印在了最下面没有覆盖1 mbr或者其他～～～～～？？？？？？？？？？？？？？？？？？？？？？？
 loadermsg db '2 loader in real.'
 
 loader_start:
@@ -90,7 +91,9 @@ p_mode_start:
     mov esp,LOADER_STACK_TOP
     mov ax,SELECTOR_VIDEO
     mov gs,ax
-
+    ;所以160有时便一个数他是位置跑了，有时有变成颜色了，这到底是啥？？？？？？？？？？？？？？？？？？？？？？？？？？？？
     mov byte [gs:160], 'P'
+   ; mov byte [gs:161], 0x1F     ; 设置字符属性（如蓝底白字）这是自己加的
+    ;为啥他刚好打印在了1 mbr下面那一行
 
     jmp $

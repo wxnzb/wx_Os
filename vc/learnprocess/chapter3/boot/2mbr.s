@@ -53,6 +53,6 @@ SECTION MBR vstart=0x7c00
 
    jmp $ ; 使程序悬停在此
 
-   message db "1 MBR"
+   message db "wxnzb"
    times 510-($-$$) db 0
    db 0x55,0xaa
