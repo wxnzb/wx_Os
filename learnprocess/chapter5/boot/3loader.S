@@ -231,23 +231,30 @@ kernel_init:
    xor ebx,ebx ;ebx记录程序头表地址
    xor ecx,ecx ;cx记录程序头表中的program header数量
    xor edx,edx ;dx记录program header尺寸，即e_phentsize
-
+;他是把内核全部程序放到了一个elf文件中，每一个程序头表他就代表一个段
+;一个程序头表的大小
    mov dx,[KERNEL_BIN_BASE_ADDR+42] ;偏移文件42字节处的属性是e_phentsize，表示program header大小
+;第一个程序头的位置
    mov ebx,[KERNEL_BIN_BASE_ADDR+28] ;偏移文件28字节处是e_phoff，表示第一个program>在文件中的偏移量
    add ebx,KERNEL_BIN_BASE_ADDR
+;程序头表的数量
    mov cx,[KERNEL_BIN_BASE_ADDR+44] ;偏移文件44字节处是e_phnum，表示有几个program header
 .each_segment:
    cmp byte [ebx+0],PT_NULL         ;若p_type等于PT_NULL，说明此program header未使用
+;je jump if equal,如果相等就跳转
    je .PTNULL
 
-   mov eax,[ebx+8]
+   mov eax,[ebx+8];程序头表偏移8字节的位置是p_vaddr，表示该段的虚拟地址
+;这比较的作用就是看把内核代码转移到虚拟地址的高3-4g了没，但是他为啥不是和0xc0000000作比较呢？？？
    mov esi,0xc0001500
    cmp eax,esi
+;jb jump if below，前面小于后面就跳转
    jb .PTNULL
-
+;咱说是在的，就是内核程序的段的大小，物理地址，虚拟地址全部压入栈中
    ;为函数memcpy压入参数，参数是从右往左依次压入，函数原型类似于memcpy(dst,src,size)
    push dword [ebx+16]              ;偏移16字节的地方是p_filesz，压入函数memcpy的第三个参数：size
-   mov eax,[ebx+4]                  ;偏移4字节的位置是p_offset
+;KERNEL_BIN_BASE_ADDR 是 ELF 文件在内存中的加载基址，加上该段在elf文件的偏移量，就得到他的物理地址 
+   mov eax,[ebx+4]                  ;偏移4字节的位置是p_offset,段的偏移量
    add eax,KERNEL_BIN_BASE_ADDR     ;加上kernel.bin被加载到的物理地址，eax为该段的物理地址
    push eax                         ;压入函数memcpy的第二个参数：src
    push dword [ebx+8]               ;压入函数memcpy的第三个参数：dst，偏移量为8字节的位置是p_vaddr
@@ -263,13 +270,14 @@ kernel_init:
 ;---------------------------------------------------------
 
 mem_cpy:
+;cld清除方向标志位，使字符串操作从低地址到高地址进行
    cld
    push ebp
    mov ebp,esp
    push ecx          ;rep指令需要ecx，但ecx还此时用于外循环中，所以先push保存一下
-   mov edi,[ebp+8]
-   mov esi,[ebp+12]
-   mov ecx,[ebp+16]
+   mov edi,[ebp+8];物理地址
+   mov esi,[ebp+12];虚拟地址
+   mov ecx,[ebp+16];大小
    rep movsb         ;逐字节拷贝
 
    ;恢复环境
