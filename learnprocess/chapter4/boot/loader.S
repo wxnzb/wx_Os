@@ -29,7 +29,7 @@ VIDEO_DESC:
     
 gdt_ptr dw GDT_LIMIT                                    ;定义加载进入GDTR的数据，前2字节是gdt界限，后4字节是gdt起始地址，
 	    dd  GDT_BASE
-;很好其为啥这句话打印在了最下面没有覆盖1 mbr或者其他～～～～～？？？？？？？？？？？？？？？？？？？？？？？
+; 很好其为啥这句话打印在了最下面没有覆盖1 mbr或者其他～～～～～////？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
 loadermsg db '2 loader in real.'
 
 loader_start:

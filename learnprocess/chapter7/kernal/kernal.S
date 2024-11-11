@@ -22,6 +22,7 @@ intr%1entry:                ;每个中断处理程序都要压入中断向量号
    out 0xa0,al              ;向从片发送
    out 0x20,al              ;向主片发送
 
+
    add esp,4                ;跨过error_code
    iret                     ;从中断返回
 

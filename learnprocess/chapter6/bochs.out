@@ -34,7 +34,7 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x765dcc600010. after alignment, vector=0x765dcc601000, block_size = 128K
+00000000000i[MEM0  ] allocated memory at 0x78945e600010. after alignment, vector=0x78945e601000, block_size = 128K
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/home/sweet/mybochs/bochs-bochs/share/bochs/BIOS-bochs-latest')
@@ -45,7 +45,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Wed Oct 30 11:22:39   2024 tz=utc (time0=1730287359)
+00000000000i[CMOS  ] Setting initial clock to: Mon Nov 11 12:00:31   2024 tz=utc (time0=1731326431)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -218,25 +218,4 @@
 00001710629i[BIOS  ] ata0-0: PCHS=121/16/63 translation=none LCHS=121/16/63
 00005143818i[BIOS  ] IDE time out
 00017175516i[BIOS  ] Booting from 0000:7c00
-00637370602i[      ] Ctrl-C detected in signal handler.
-00637370603i[      ] dbg: Quit
-00637370603i[CPU0  ] CPU is in real mode (active)
-00637370603i[CPU0  ] CS.mode = 16 bit
-00637370603i[CPU0  ] SS.mode = 16 bit
-00637370603i[CPU0  ] EFER   = 0x00000000
-00637370603i[CPU0  ] | EAX=00001301  EBX=00000002  ECX=0009000a  EDX=00001100
-00637370603i[CPU0  ] | ESP=00007c00  EBP=00000033  ESI=000e0000  EDI=0000ffac
-00637370603i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf af pf cf
-00637370603i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-00637370603i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
-00637370603i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00637370603i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00637370603i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00637370603i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00637370603i[CPU0  ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00637370603i[CPU0  ] | EIP=00007c31 (00007c31)
-00637370603i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
-00637370603i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-00637370603i[CMOS  ] Last time: 1730287518 tz=utc (Wed Oct 30 11:25:18   2024)
-00637370603i[XGUI  ] Exit
-00637370603i[SIM   ] quit_sim called with exit code 0
+00505569781i[      ] Ctrl-C detected in signal handler.

@@ -15,16 +15,17 @@ put_char:
    pushad                  ;备份32位寄存器环境，需要保证gs为正确的视频段选择子，保>险起见，每次打印时都为gs赋值
    mov ax,SELECTOR_VIDEO
    mov gs,ax
-
+;首先他是实际上是向 VGA 控制器发送命令，0x03d4是索引端口，向他里面输入操作(0x0e或0x0f),然后他将操作后的数据放入0x03d5数据端口，然后从这个端口读数据就成
+;用0x0e来获取行号，0x0f来获取列号,现在这样他们都存在了ax中
    ;获取当前光标位置
-   ;先获取高8位
+   ;先获取高8位（行号)
    mov dx,0x03d4
    mov al,0x0e
    out dx,al
    mov dx,0x03d5
    in al,dx
    mov ah,al
-   ;再获取低8位
+   ;再获取低8位(列号)
    mov dx,0x03d4
    mov al,0x0f
    out dx,al
@@ -34,21 +35,30 @@ put_char:
    ;将光标存入bx
    mov bx,ax
    mov ecx,[esp+36]        ;pushad压入4*8=32B，加上主调函数4B的返回地址，故esp+36B
+;比较时不是回车符,如果是，就进行跳转,他是将光标移动到首行
    cmp cl,0xd              ;CR是0x0d，LF是0x0a
    jz .is_carriage_return
+;比较时不是\n,如果是，就进行跳转，他时将光标移动到下一行
    cmp cl,0xa
    jz .is_line_feed
-
+;比较时不是退格符,如果是，就进行跳转，他是将光标向前移动一位
    cmp cl,0x8              ;BS(backspace)的ASCII码是8
    jz .is_backspace
+;jz 和 jmp又忘了那就在看，jz(jump if zero)如果ZF为1，则跳转
+;jmp(unconditional jump)无条件跳转
+;好好好，那你说说为啥不用call嘻嘻
    jmp .put_other
 
 .is_backspace:
-   dec bx
+;将字符索引左移一位
+   dec bx   
+;shl shift left 左移,虽然也是左移一位，但是他代表的是给他*2,一个字符占了两个字节，一个码一个属性，*2为他的显存字节偏移量
    shl bx,1                ;光标左移1位等于乘2，表示光标对应显存中的偏移字节
-   mov byte [gs:bx],0x20   ;将待删除的字节补为0或空格皆可
+   mov byte [gs:bx],0x20   ;将待删除的字节补为0或空格皆可，这里的0x02只占了一个字节，代表空格
+;将显存位置右移一个字节
    inc bx
-   mov byte [gs:bx],0x07
+   mov byte [gs:bx],0x07;这个是他的属性，设置成了白色
+;将显存字节偏移量还原为字符索引
    shr bx,1
    jmp .set_cursor
 
@@ -60,15 +70,20 @@ put_char:
    shr bx,1                ;恢复老光标值
    inc bx                  ;下一个光标值
    cmp bx,2000
-   jl .set_cursor          ;若光标值小于2000，表示未写到显存的最后，则去设置新的光>标值，若超出屏幕字符大小（2000），则换行处理
+;jump if less,如果小于就进行跳转
+   jl .set_cursor          ;若光标值小于2000(80*25)字符，表示未写到显存的最后，则去设置新的光>标值，若超出屏幕字符大小（2000），则换行处理
 
+;其实我就很好奇为啥上面的都跳转了更新光标寄存器，但是下面这个没有，因为他们后面还是要put_char，他会进行最终的更新，？？那为啥is_backspace他高贵？？
 .is_line_feed:             ;换行符LF(\n)
 .is_carriage_return:       ;回车符CR(\r)
    ;如果是CR(\r)，只要把光标移到行首就行了
    xor dx,dx               ;dx是被除数的高16位，清0
    mov ax,bx               ;ax是被除数的低16位
+;这里表示每一行有80个字符
    mov si,80
+;它将 ax 除以 si 中的值，并将结果存储到[低16位]ax(行数)和[高16位]dx(列数) 寄存器中。
    div si
+;bx-=dx
    sub bx,dx               ;光标值取整
 
 .is_carriage_return_end:
@@ -77,24 +92,28 @@ put_char:
 .is_line_feed_end:         ;若是LF(\n)，将光标移+80即可
    jl .set_cursor
 
+;感觉这个没用上，这个是不是应该加到2000判断那里，74行
    ;屏幕行范围是0~24，滚屏的原理是将屏幕第1~24行搬运到第0~23行，再将第23行用空格填>充
 .roll_screen:              ;若超出屏幕大小，滚屏
+;方向标志 DF 清除为 0,字符串操作从低向高进行
    cld
    mov ecx,960             ;2000-80=1920个字符，共1920*2=3840B，一次搬4B，共3840/4=960次
+;0xc0000000他是虚拟内存开始的内核空间
    mov esi,0xc00b80a0      ;第1行行首
    mov edi,0xc00b8000      ;第0行行首
+;字符串操作指令，会将esi地址指向的数据块复制到edi地址指向的数据块中，复制长度由ecx指定，ecx每次复制4B
    rep movsd
 
    ;将最后一行填充为空白
    mov ebx,3840
    mov ecx,80
-
 .cls:
-   mov word [gs:ebx],0x0720;0x0720是黑底白字的空格键
+   mov word [gs:ebx],0x0720;0x0720是黑底白字的空格键，两个字节
    add ebx,2
    loop .cls
    mov bx,1920             ;将光标值重置为1920，最后一行首字符
-
+;这不是和上面那个获取光标位置一样吗，对了，不是获取，是写入
+;咱就是说，感觉很奇怪，为啥光标变了寄存器自己不能跟着变吗
 .set_cursor:
    ;将光标设为bx值
    ;1.先设置高8位

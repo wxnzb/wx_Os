@@ -26,5 +26,5 @@ mov byte [gs:0x0e],'R'
 mov byte [gs:0x0f],0xA4
 
 
-
-;jmp $
+;总是感觉没有这句也可以呀
+jmp $
