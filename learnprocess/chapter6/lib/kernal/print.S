@@ -141,11 +141,13 @@ put_str:
    push ebx
    push ecx
    xor ecx,ecx
+;为啥加12就是字符串的起始地址
    mov ebx,[esp+12]
 .put_char_loop:
    mov cl,[ebx]
    cmp cl,0
    jz .str_over
+;将起始字符串的字母赋给cx,然后将他压入栈中，给put_char函数利用，利用完之后在从栈中去除
    push ecx
    call put_char
    add esp,4
@@ -156,34 +158,44 @@ put_str:
    pop ebx
    ret
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;下面函数将整数值以十六进制（16-based）格式打印的功能
    global put_int
 put_int:
    pushad
    mov ebp,esp
+;这里eax存放的就是要转化的二进制
    mov eax,[esp+36]        ;32B+4B返回地址
    mov edx,eax
+;32位整数的16进制最多需要8字符(4*8),从缓冲区的第7个位置(第八个字符)从右向左填充，这是从低位到高位
    mov edi,7               ;put_int_buffer偏移量
    mov ecx,8               ;循环八次
    mov ebx,put_int_buffer
 
 .16based_4bits:
-   and edx,0x0000000F
+;提取edx的低四位
+   and edx,0x0000000F    
    cmp edx,9
+;如果edx大于9，则表示是A~F的ASCII码
    jg  .is_A2F             ;A～F的ASCII码
    add edx,'0'             ;0~9的ASCII码
    jmp .store
-
+;下面没有jmp .store的原因是按顺序执行也改他了，但是上面有是为了跳过.is_A2F
 .is_A2F:
+;因为10-15要表示A-F,所以减去10等于A～F的字符序+'A'得ASCII码
    sub edx,10
    add edx,'A'             ;减去10等于A～F的字符序+'A'得ASCII码
 .store:
+;将当前转换后的十六进制字符存入缓冲区,dl寄存器中保存了当前处理的数字对应的ASCII码字符而ebx指向字符缓冲区put_int_buffer 的起始位置
    mov [ebx+edi],dl        ;此时dl中是数字对应字符的ASCII码
    dec edi
+;右移4位，因为已经处理了
    shr eax,4
    mov edx,eax
    loop .16based_4bits
 
+;这块我真的看的不是很懂
 .ready_to_print:
+;他进行比较退出的时候，edi已经指向从右向左第9个字符了
    inc edi                 ;edi减退为-1
 .skip_prefix_0:            ;跳过前导0
    cmp edi,8               ;edi偏移量为8的时候表示到了第9个字符
