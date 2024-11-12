@@ -9,7 +9,7 @@ MBR_TARGET = build/mbr.bin
 LOADER_TARGET = build/loader.bin
 KERNEL_TARGET = build/kernel.bin
 MBR_SOURCE = boot/mbr.s
-LOADER_SOURCE = boot/1loader.S
+LOADER_SOURCE = boot/3loader.S
 KERNEL_SOURCE = kernal/main.c
 IMG = /home/sweet/git/vc/JY/wx.img
 
