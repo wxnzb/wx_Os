@@ -9,8 +9,8 @@ CFLAGS = -Wall -m32 -fno-stack-protector $(LIB) -c -fno-builtin -W -Wstrict-prot
 LDFLAGS =  -m elf_i386 -Ttext $(ENTRY_POINT) -e main -Map $(BUILD_DIR)/kernal.map
 OBJS = $(BUILD_DIR)/main.o $(BUILD_DIR)/init.o $(BUILD_DIR)/interrupt.o \
       $(BUILD_DIR)/timer.o $(BUILD_DIR)/kernal.o $(BUILD_DIR)/print.o \
-      $(BUILD_DIR)/debug.o $(BUILD_DIR)/string.o
-
+      $(BUILD_DIR)/debug.o $(BUILD_DIR)/string.o $(BUILD_DIR)/memory.o\
+	  $(BUILD_DIR)/bitmap.o
 ##############     c代码编译     ###############
 $(BUILD_DIR)/main.o: kernal/main.c lib/kernal/print.h \
         lib/stdint.h kernal/init.h lib/string.h
@@ -43,10 +43,20 @@ $(BUILD_DIR)/print.o: lib/kernal/print.S
 ##############    链接所有目标文件    #############
 $(BUILD_DIR)/kernal.bin: $(OBJS)
 	$(LD) $(LDFLAGS) $^ -o $@
-
-$(BUILD_DIR)/string.o:lib/string.c lib/string.h
+###################新加的，字符串操作
+$(BUILD_DIR)/string.o:lib/string.c lib/string.h\
 		kernal/debug.h kernal/global.h
 		$(CC) $(CFLAGS) $< -o $@
+#######################新加的
+$(BUILD_DIR)/memory.o:kernal/memory.c kernal/memory.h\
+		lib/stdint.h lib/kernal/print.h lib/kernal/bitmap.h
+		$(CC) $(CFLAGS) $< -o $@
+#######################新加的
+$(BUILD_DIR)/bitmap.o:lib/kernal/bitmap.c lib/kernal/bitmap.h\
+		lib/stdint.h lib/string.h lib/kernal/print.h
+		$(CC) $(CFLAGS) $< -o $@
+#######################
+
 
 .PHONY : mk_dir hd clean all
 

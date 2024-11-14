@@ -11,6 +11,12 @@
 #define PIC_S_DATA 0xa1       // 从片的数据端口是0xa1
 
 #define IDT_DESC_CNT 0x21      //支持的中断描述符个数33
+//;;;;;;;;;;;;;;;;;;;;;;;;;;;;;这里是新加的
+#define EFLAGS_IF   0x00000200       // eflags寄存器中的if位为1
+#define GET_EFLAGS(EFLAG_VAR) asm volatile("pushfl; popl %0" : "=g" (EFLAG_VAR))
+//pop到了eflags_var所在内存中，该约束自然用表示内存的字母，但是内联汇编中没有专门表示约束内存的字母，所以只能用
+//g 代表可以是任意寄存器，内存或立即数
+//;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 //按照中断门描述符格式定义结构体
 struct gate_desc {
@@ -79,7 +85,7 @@ static void general_intr_handler(uint8_t vec_nr) {
 /* 完成一般中断处理函数注册及异常名称注册 */
 static void exception_init(void) {
    int i;
-   for (i = 0; i < IDT_DESC_CNT; i++) {//idt_table数组中的函数是在进入中断后根据中断向量号调用的,见kernel/kernel.S的call [idt_table + %1*4]
+   for (i = 0; i < IDT_DESC_CNT; i++) {                   //idt_table数组中的函数是在进入中断后根据中断向量号调用的,见kernel/kernel.S的call [idt_table + %1*4]
       idt_table[i] = general_intr_handler;                // 默认为general_intr_handler。
                                                           // 以后会由register_handler来注册具体处理函数。
       intr_name[i] = "unknown";                           // 先统一赋值为unknown
@@ -145,7 +151,8 @@ enum intr_status intr_disable(){
         return old_status;
     }
 }
-
+//这个问题可以搜到
+//该函数的作用是设置系统的中断状态，启用或禁用中断，那中断status的状态既然都启用了，那为啥还要调用启用函数
 /* 将中断状态设置为status */
 enum intr_status intr_set_status(enum intr_status status){
     return status&INTR_ON?intr_enable():intr_disable();
@@ -154,6 +161,6 @@ enum intr_status intr_set_status(enum intr_status status){
 /* 获取当前中断状态 */
 enum intr_status intr_get_status(){
     uint32_t eflags=0;
-    GET_EFLAGS(eflags);//现在的问题是好像找不到他
+    GET_EFLAGS(eflags);//现在的问题是好像找不到他的宏定义
     return (EFLAGS_IF&eflags)?INTR_ON:INTR_OFF;
 }
