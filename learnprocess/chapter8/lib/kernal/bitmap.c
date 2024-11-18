@@ -14,6 +14,7 @@ void bitmap_init(struct bitmap* btmp){
 bool bitmap_scan_test(struct bitmap* btmp,uint32_t bit_idx){
     uint32_t byte_idx=bit_idx/8;   // 向下取整用于索引数组下标
     uint32_t bit_off=bit_idx%8;   // 取余用于索引数组内的值
+//得到某个位，要判断该位里面的某个的状态，你就要将1享有偏移他的与数
     return (btmp->bits[byte_idx]&(BITMAP_MASK<<bit_off));
 }
 

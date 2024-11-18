@@ -1,3 +1,4 @@
+//这段代码的主要作用是打印出错误信息，并使程序悬停
 #include "debug.h"
 #include "print.h"
 #include "interrupt.h"
@@ -8,6 +9,7 @@ void panic_spin(char* filename,     \
         const char* func ,     \
         const char* condition) \
 {
+    //先要关闭中断，不然害怕影响屏幕输出
     intr_disable();   // 因为有时候会单独调用panic_spin，所以在此处关中断
     put_str("\n\n\n!!!!! error !!!!!\n");
     put_str("filename:");put_str(filename);put_str("\n");
