@@ -12,10 +12,12 @@
 
 #define IDT_DESC_CNT 0x21      //支持的中断描述符个数33
 //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;这里是新加的
-#define EFLAGS_IF   0x00000200       // eflags寄存器中的if位为1
-#define GET_EFLAGS(EFLAG_VAR) asm volatile("pushfl; popl %0" : "=g" (EFLAG_VAR))
-//pop到了eflags_var所在内存中，该约束自然用表示内存的字母，但是内联汇编中没有专门表示约束内存的字母，所以只能用
-//g 代表可以是任意寄存器，内存或立即数
+#define EFLAGS_IF   0x00000200       // eflags寄存器中的if位为1，cpu才能响应可屏蔽中断
+//将当前 EFLAGS 寄存器的值压入栈中。fl是EFLAGS的别名
+//从栈中弹出一个值并将其存储到EFLAG_VAR中。%0是汇编约定的占位符
+//so:获取当前的sEFLAGS寄存器值，并将其保存在变量EFLAG_VAR 
+//"=g"：表示可以使用寄存器或内存来存储 EFLAG_VAR
+#define GET_EFLAGS(EFLAG_VAR) asm volatile("pushfl; popl %0" : "=g" (EFLAG_VAR))//为啥这有红有绿的？？太奇怪了
 //;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 //按照中断门描述符格式定义结构体

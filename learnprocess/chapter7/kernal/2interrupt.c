@@ -1,3 +1,5 @@
+//2interrupt.c比1interrupt.c多了
+
 #include "interrupt.h"
 #include "stdint.h"
 #include "global.h"
@@ -71,6 +73,7 @@ static void general_intr_handler(uint8_t vec_nr) {
    if (vec_nr == 0x27 || vec_nr == 0x2f) {	//伪中断向量，无需处理。详见书p337
       return;		
    }
+//这些都写在print.s中哈
    put_str("int vector: 0x");
    put_int(vec_nr);
    put_char('\n');

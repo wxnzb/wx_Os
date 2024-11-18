@@ -2,6 +2,8 @@
 #include "stdint.h"
 #include "global.h"
 #include "io.h"
+// 这一行是我自己加的，真不错
+#include "print.h"
 
 
 #define PIC_M_CTRL 0x20           // 主片的控制端口是0x20
@@ -56,7 +58,7 @@ static void make_idt_desc(struct gate_desc* p_gdesc,uint8_t attr,intr_handler fu
     p_gdesc->attribute=attr;
     p_gdesc->func_offset_high_word=((uint32_t)function & 0xffff0000)>>16;
 }
-
+//浅浅好奇一下，为啥intr_entry_table[i]这个在这之前就已经初始化了，就是那个打印"interrupt occur!"
 /*初始化中断描述符表*/
 static void idt_desc_init(void){
     int i;

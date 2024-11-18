@@ -1,3 +1,4 @@
+;初始化中断号以及所对应的中断程序
 [bits 32]
 %define ERROR_CODE nop
 %define ZERO push 0
