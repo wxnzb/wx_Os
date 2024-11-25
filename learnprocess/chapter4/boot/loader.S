@@ -17,6 +17,8 @@ DATA_STACK_DESC:
     dd DESC_DATA_HIGH4
 
 VIDEO_DESC: 
+;这个段描述符地32位的高4字节为段基址，不应该为0xb8000吗？为什么是0x0800？
+;因为他的高32为的0—7你可以自己去看看，嘻嘻
     dd 0x80000007	                                    ;limit=(0xbffff-0xb8000)/4k=0x7
     dd DESC_VIDEO_HIGH4                                 ; 此时dpl已改为0
 
@@ -55,7 +57,7 @@ loader_start:
     mov	cx,17			                                ; CX = 字符串长度
     mov	ax,0x1301		                                ; AH = 13,  AL = 01h
     mov	bx,0x001f		                                ; 页号为0(BH = 0) 蓝底粉红字(BL = 1fh)
-    mov	dx,0x1800		                                ;
+    mov	dx,0x1800		                                ;行列号
     int	0x10                                            ; 10h 号中断
 
                                                         ;-----------------   准备进入保护模式   ------------------------------------------
