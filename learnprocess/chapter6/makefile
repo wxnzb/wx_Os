@@ -19,16 +19,16 @@ LOADER_TARGET = build/loader.bin
 
 # 默认规则
 all: $(KERNEL_TARGET) $(LOADER_TARGET) $(MBR_TARGET) install
-#为啥加上就运行不料，真的好奇怪！！！！
-# 编译 mbr.s 为二进制文件
-# $(MBR_TARGET): $(MBR_SOURCE)
-# 	@mkdir -p build          # 创建 build 目录（如果不存在）
-# 	$(NASM) $(NASMFLAGS) -o $@ $<
+#为啥加上就运行不料，真的好奇怪！！！！,欸，怎么加上就可以运行了，good!!!
+#编译 mbr.s 为二进制文件
+$(MBR_TARGET): $(MBR_SOURCE)
+	@mkdir -p build          # 创建 build 目录（如果不存在）
+	$(NASM) $(NASMFLAGS) -o $@ $<
 
-# # 编译 loader.S 为二进制文件
-# $(LOADER_TARGET): $(LOADER_SOURCE)
-# 	@mkdir -p build          # 创建 build 目录（如果不存在）
-# 	$(NASM) $(NASMFLAGS) -o $@ $<
+# 编译 loader.S 为二进制文件
+$(LOADER_TARGET): $(LOADER_SOURCE)
+	@mkdir -p build          # 创建 build 目录（如果不存在）
+	$(NASM) $(NASMFLAGS) -o $@ $<
 
 # 编译 print.S 为目标文件
 $(PRINT_TARGET): $(PRINT_SOURCE)
