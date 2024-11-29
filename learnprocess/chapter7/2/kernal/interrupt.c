@@ -107,16 +107,19 @@ static void exception_init(void) {
    intr_name[17] = "#AC Alignment Check Exception";
    intr_name[18] = "#MC Machine-Check Exception";
    intr_name[19] = "#XF SIMD Floating-Point Exception";
-
 }
+
 /*完成有关中断的所有初始化工作*/
 void idt_init() {
    put_str("idt_init start\n");
    idt_desc_init();           //调用上面写好的函数完成中段描述符表的构建
-   exception_init();          // 异常名初始化并注册通常的中断处理函数
+   exception_init();          //异常名初始化并注册通常的中断处理函数
    pic_init();                //设定化中断控制器，只接受来自时钟中断的信号
 
    /* 加载idt */
+//左移16位是因为低16位存储idt的大小，高48位存储他的地址
+//？？-1lidt 指令要求 IDT 的大小字段存储的是 IDT 的 字节数减去 1。
+//因为 IDT 的大小实际上是通过 IDT 表中最后一个字节的地址来推导出来的，所以大小字段的值是 size_of_idt - 1
    uint64_t idt_operand = ((sizeof(idt) - 1) | ((uint64_t)(uint32_t)idt << 16));    //定义要加载到IDTR寄存器中的值
    asm volatile("lidt %0" : : "m" (idt_operand));
    put_str("idt_init done\n");

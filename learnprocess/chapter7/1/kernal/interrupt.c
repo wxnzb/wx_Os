@@ -5,7 +5,6 @@
 // 这一行是我自己加的，真不错
 #include "print.h"
 
-
 #define PIC_M_CTRL 0x20           // 主片的控制端口是0x20
 #define PIC_M_DATA 0x21           // 主片的数据端口是0x21
 #define PIC_S_CTRL 0xa0           // 从片的控制端口是0xa0
