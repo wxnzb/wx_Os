@@ -6,7 +6,7 @@ LD = ld
 
 # 定义目标文件和源文件
 MBR_TARGET = build/mbr.bin
-LOADER_TARGET = build/loader.bin
+LOADER_TARGET = build/oader.bin
 KERNEL_TARGET = build/kernel.bin
 MBR_SOURCE = boot/mbr.s
 LOADER_SOURCE = boot/3loader.S

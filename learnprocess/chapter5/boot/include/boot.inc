@@ -42,7 +42,7 @@ TI_GDT equ 000b
 TI_LDT equ 100b
 
 ;-------启动分页机制！！！！！-------              ;---------模块化的页目录表字段,PWT PCD A D G AVL 暂时不用设置   ----------
-PG_P  equ   1b
+PG_P  equ     1b
 PG_RW_R	 equ  00b 
 PG_RW_W	 equ  10b 
 PG_US_S	 equ  000b 

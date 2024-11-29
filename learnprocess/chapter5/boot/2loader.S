@@ -187,7 +187,7 @@ p_mode_start:
     mov cr0, eax
                                                         
     lgdt [gdt_ptr]                                      ; 在开启分页后,用gdt新的地址重新加载
-
+;为啥这样就可以的打印出来，不明白原理？？？？
     mov byte [gs:160], 'V'                              ; 视频段段基址已经被更新,用字符v表示virtual addr
 
     jmp $

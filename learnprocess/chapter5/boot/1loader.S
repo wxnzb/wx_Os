@@ -21,7 +21,7 @@ jmp loader_start
    times 59 dq 0                              ;dq 定义4字/8字节
    times 5 db 0
 
-   total_mem_bytes dd 0//，嘿嘿*>*,他的地址在0xb00,0x900+0x200,0x200=512字节=(4[4个段描述符]+60[预留的60个空间])*8字节
+   total_mem_bytes dd 0;嘿嘿*>*,他的地址在0xb00,0x900+0x200,0x200=512字节=(4[4个段描述符]+60[预留的60个空间])*8字节
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    SELECTOR_CODE   equ   (0x0001<<3)+TI_GDT+RPL0
       ;相当于(CODE_DESC-GDT_BASE)/8+TI_GDT+RPL0
@@ -29,13 +29,13 @@ jmp loader_start
    SELECTOR_VIDEO  equ   (0x0003<<3)+TI_GDT+RPL0
 
    ;以下是GDT的指针GDTR,6B/48bit，前2字节是GDT界限，后4字节是GDT起始地址
-   gdt_ptr     dw  GDT_LIMIT//define word占了两个2字节
-               dd  GDT_BASE//define double word占4字节
+   gdt_ptr     dw  GDT_LIMIT;define word占了两个2字节
+               dd  GDT_BASE;define double word占4字节
 
-   ards_buf times 244 db 0//244字节//每个ARDS结构体20字节，最多12个那也应该是240,这咋还多处4字节，作者呢，纯属是为了对其，还是浅浅地优点强迫症
+   ards_buf times 244 db 0;244字节//每个ARDS结构体20字节，最多12个那也应该是240,这咋还多处4字节，作者呢，纯属是为了对其，还是浅浅地优点强迫症
    ;total_mem_bytes是 4 字节，gdt_ptr 是 6 字节，ards_buf 是 244 字节，ards_nr 是 2 字节，加起来的和是 256 字节，即 0x100。加
    ;+上 total_mem_bytes 在文件内偏移地址是 0x200，所以 loader_start 在文件内的偏移地址是 0x100+0x200=0x300
-   ards_nr dw 0//2个字节
+   ards_nr dw 0;2个字节
 
 loader_start:
 
