@@ -103,6 +103,7 @@ static void make_main_thread(void){
 void schedule(){
     ASSERT(intr_get_status()==INTR_OFF);
     struct task_struct* cur=running_thread();
+//if,else这块代码的作用到底是啥？？？？？？？？感觉自己不太明白
     if (cur->status==TASK_RUNNING){
     // 若此线程只是cpu时间片到了，将其加入就绪队列队尾
     ASSERT(!elem_find(&thread_ready_list,&cur->general_tag));
@@ -136,6 +137,7 @@ void thread_init(void){
 //第10章新加的内容
 /* 当前线程将自己阻塞，标记状态为status */
 void thread_block(enum task_status stat){
+//task_hanging这是啥呀，他们三个有什么区别吗？？？？？？？？
     /* stat取值为TASK_BLOCKED、TASK_WATING、TASK_HANGING时不会被调度 */
     ASSERT((stat==TASK_BLOCKED) || (stat==TASK_WAITING) || (stat==TASK_HANGING));
     enum intr_status old_status=intr_disable();
@@ -147,11 +149,13 @@ void thread_block(enum task_status stat){
 }
 
 /* 解除pthread的阻塞状态 */
+//他只能先转到就绪状态，然后可能由就绪状态转到运行状态
 void thread_unblock(struct task_struct* pthread){
     enum intr_status old_status=intr_disable();
     ASSERT((pthread->status==TASK_BLOCKED) || (pthread->status==TASK_WAITING) || (pthread->status==TASK_HANGING));
     if (pthread->status!=TASK_READY){
     ASSERT(!elem_find(&thread_ready_list,&pthread->general_tag));
+//那不是上面的ASSERT已经判断过了吗，要是要的话就直接悬停了，还会运行下面吗，是不是应该把他们大个颠倒？？？？？？？？/
     if (elem_find(&thread_ready_list,&pthread->general_tag)){
         PANIC("thread_unblock:blocked thread in ready_list\n");   // 想要解除阻塞状态的thread已经在ready_list中了，有问题
     }

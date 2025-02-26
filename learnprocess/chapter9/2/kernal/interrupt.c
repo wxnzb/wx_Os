@@ -95,6 +95,7 @@ static void general_intr_handler(uint8_t vec_nr)
       put_char(' ');
       cursor_pos++;
    }
+   //要是不是伪中断的中断他也会打印excetion message begin  !!!!!!!!，不就以为是异常了吗？？？？？？？？？？？？？
    set_cursor(0); // 重置光标为屏幕左上角
    put_str("!!!!!!!      excetion message begin  !!!!!!!!\n");
    set_cursor(88); // 从第2行第8个字符开始打印
