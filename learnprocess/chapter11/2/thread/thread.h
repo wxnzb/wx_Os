@@ -3,10 +3,6 @@
 #include "stdint.h"
 #include "list.h"
 
-#include "bitmap.h"
-#include "memory.h"
-
-
 // 定义一种叫thread_fun的函数类型，该类型返回值是空，参数是一个地址(这个地址用来指向自己的参数)。
 // 这样定义，这个类型就能够具有很大的通用性，很多函数都是这个类型
 typedef void thread_func(void *);
@@ -92,8 +88,6 @@ struct task_struct
     uint32_t *pgdir;               // 进程自己页表的虚拟地址
 
     uint32_t stack_magic; // 如果线程的栈无限生长，总会覆盖地pcb的信息，那么需要定义个边界数来检测是否栈已经到了PCB的边界
-    
-    struct virtual_addr userprog_vaddr;   // 用户进程的虚拟地址
 };
 
 void thread_create(struct task_struct *pthread, thread_func function, void *func_arg);
